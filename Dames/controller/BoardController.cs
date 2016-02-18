@@ -1,4 +1,5 @@
-﻿using Dames.model.board;
+﻿using Dames.model;
+using Dames.model.board;
 using Dames.model.player;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,42 @@ namespace Dames.controller
         {
             Human = new Human();
             Ia = new Ia();
-            Board = new Board(Human, Ia);
+            Board = new Board();
+
+            InitalizePons();
+        }
+
+        private void InitalizePons()
+        {
+            foreach (Square Square in Board.GetSquares())
+            {
+                if (Square.GetColored() && Square.GetRow() > 5)
+                {
+                    foreach (Pon Pon in Human.GetPons())
+                    {
+                        if (Pon.GetSquare() == null)
+                        {
+                            Pon.SetSquare(Square);
+                            Square.SetPon(Pon);
+                            break;
+                        }
+                        
+                    }                   
+                }
+                else if (Square.GetColored() && Square.GetRow() < 4)
+                {
+                    foreach (Pon Pon in Ia.GetPons())
+                    {
+                        if (Pon.GetSquare() == null)
+                        {
+                            Pon.SetSquare(Square);
+                            Square.SetPon(Pon);
+                            break;
+                        }
+
+                    }
+                }
+            }
         }
 
         public Board GetBoard()

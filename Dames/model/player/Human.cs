@@ -9,6 +9,11 @@ namespace Dames.model.player
 {
     class Human : Player
     {
-        public static SolidColorBrush Color = Brushes.SaddleBrown;
+        public Human()
+        {
+            this.Color = Brushes.SaddleBrown;
+            this.CreatePons();
+            this.Ia = false;
+        }
     }
 }

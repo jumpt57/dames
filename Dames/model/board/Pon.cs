@@ -1,4 +1,5 @@
-﻿using Dames.model.player;
+﻿using Dames.model.board;
+using Dames.model.player;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,13 @@ namespace Dames.model
     class Pon
     {
         public static SolidColorBrush ColorHover = Brushes.Gray;
+        public static SolidColorBrush ColorClick = Brushes.LightGreen;
 
         private Rectangle Rec;
         private Player Player;
+        private Square Square;
+        private bool Dame;
+        private bool Selected;
 
         public Pon(Player Player)
         {
@@ -26,34 +31,65 @@ namespace Dames.model
             this.Rec.VerticalAlignment = VerticalAlignment.Center;
             this.Rec.RadiusX = 50;
             this.Rec.RadiusY = 50;
-            this.Rec.Stroke = Brushes.Black;
-            this.Player = Player;
-
+            this.Rec.Stroke = Brushes.Black;            
+            
             this.Rec.MouseEnter += OnMouseEnter;
             this.Rec.MouseLeave += OnMouseLeave;
             this.Rec.MouseLeftButtonDown += OnMouseLeftClick;
+
+            this.Player = Player;
+            this.Dame = false;
+            this.Selected = false;
         }
 
         private void OnMouseLeftClick(object sender, MouseEventArgs m)
         {
-            Console.WriteLine("Click !");
+            if (!this.Player.GetIa())
+            {
+                if (!this.Selected)
+                {
+                    Select();
+                    Player.DeselectPons(this);
+                }
+                else
+                {
+                    Deselect();
+                }                
+            }
         }
 
         private void OnMouseEnter(object sender, MouseEventArgs m)
         {
-            this.SetColor(Pon.ColorHover);            
+            if (!this.Player.GetIa())
+            {
+                if (this.GetColor() != ColorClick)
+                {
+                    this.SetColor(Pon.ColorHover);
+                }                
+            }          
         }
 
         private void OnMouseLeave(object sender, MouseEventArgs m)
-        {           
-            if (this.GetPlayer() is Ia)
+        {
+            if (!this.Player.GetIa())
             {
-                this.SetColor(Ia.Color);
-            }
-            else
-            {
-                this.SetColor(Human.Color);
-            }
+                if (this.GetColor() != ColorClick)
+                {
+                    this.SetColor(Player.GetColor());
+                }
+            }          
+        }
+
+        public void Select()
+        {
+            this.Selected = true;            
+            this.SetColor(Pon.ColorClick);            
+        }
+
+        public void Deselect()
+        {
+            this.Selected = false;
+            this.SetColor(this.Player.GetColor());
         }
 
         public Brush GetColor()
@@ -75,5 +111,36 @@ namespace Dames.model
         {
             return this.Player;
         }
+
+        public void SetSquare(Square Square)
+        {
+            this.Square = Square;
+        }
+
+        public Square GetSquare()
+        {
+            return this.Square;
+        }
+
+        public bool GetDame()
+        {
+            return this.Dame;
+        }
+
+        public void SetDame(bool Dame)
+        {
+            this.Dame = Dame;
+        }
+
+        public bool GetSelected()
+        {
+            return this.Selected;
+        }
+
+        public void SetSelected(bool Selected)
+        {
+            this.Selected = Selected;
+        }
+        
     }
 }

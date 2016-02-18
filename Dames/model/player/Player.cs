@@ -7,29 +7,62 @@ using System.Windows.Media;
 
 namespace Dames.model.player
 {
-    class Player
+    abstract class Player
     {
-        private List<Pon> Pons;
+        protected static int MAX_PONS = 20;
 
-        public Player()
+        protected SolidColorBrush Color;
+
+        protected List<Pon> Pons;
+
+        protected bool Ia;
+
+        protected void CreatePons()
         {
-            Pons = new List<Pon>(12);
-        }
-        
-        public void AddPon(Pon Pon)
-        {
-            this.Pons.Add(Pon);
+            this.Pons = new List<Pon>(MAX_PONS);
+
+            for (int i = 0; i < Player.MAX_PONS; i++)
+            {
+                var Pon = new Pon(this);
+                Pon.SetColor(Color);
+                this.Pons.Add(Pon);
+            }
         }
 
-        public void MIN()
+        public void DeselectPons(Pon Pon)
+        {
+            foreach (Pon pon in Pons)
+            {
+                if (!Pon.Equals(pon))
+                {
+                    pon.Deselect();
+                }
+            }
+        }
+
+        public List<Pon> GetPons()
+        {
+            return this.Pons;
+        }
+
+        public SolidColorBrush GetColor()
+        {
+            return this.Color;
+        }
+
+        public bool GetIa()
+        {
+            return this.Ia;
+        }
+
+        protected void MIN()
         {
 
         }
-        
-        public void MAX()
+
+        protected void MAX()
         {
 
-        }
-        
+        }        
     }
 }

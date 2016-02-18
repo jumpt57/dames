@@ -8,8 +8,12 @@ using System.Windows.Media;
 namespace Dames.model.player
 {
     class Ia : Player
-    {
-        public static SolidColorBrush Color = Brushes.Wheat;
-
+    {        
+        public Ia()
+        {
+            this.Color = Brushes.Wheat;
+            this.CreatePons();
+            this.Ia = true;
+        }
     }
 }

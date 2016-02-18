@@ -13,15 +13,13 @@ namespace Dames.model.board
 
         private List<Square> Squares;
 
-        public Board(Human Human, Ia Ia)
+        public Board()
         {
             Squares = new List<Square>(100);
             InitalizeSquares();
-            InitalizePonsIa(Ia);
-            InitalizePonsHuman(Human);
         }
 
-        private void InitalizePonsHuman(Human human)
+        /*private void InitalizePonsHuman(Human human)
         {
             foreach (Square square in Squares)
             {
@@ -47,7 +45,7 @@ namespace Dames.model.board
                     ia.AddPon(pon);
                 }
             }
-        }
+        }*/
 
         public void InitalizeSquares()
         {
