@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Dames.model.board
 {
@@ -19,41 +21,13 @@ namespace Dames.model.board
             InitalizeSquares();
         }
 
-        /*private void InitalizePonsHuman(Human human)
-        {
-            foreach (Square square in Squares)
-            {
-                if (square.GetColored() && square.GetRow() > 6)
-                {
-                    Pon pon = new Pon(human);
-                    pon.SetColor(Human.Color);
-                    square.SetPon(pon);
-                    human.AddPon(pon);
-                }
-            }
-        }
-
-        private void InitalizePonsIa(Ia ia)
-        {
-            foreach (Square square in Squares)
-            {
-                if (square.GetColored() && square.GetRow() < 3)
-                {
-                    Pon pon = new Pon(ia);
-                    pon.SetColor(Ia.Color);
-                    square.SetPon(pon);
-                    ia.AddPon(pon);
-                }
-            }
-        }*/
-
         public void InitalizeSquares()
         {
             for (int i = 0; i < LENGTH_GRID; i++)
             {
                 for (int j = 0; j < LENGTH_GRID; j++)
                 {
-                    Square square = new Square(j, i);
+                    Square square = new Square(j, i, this);
                     this.Squares.Add(square);
                 }
                 Square.OffsetColor();
@@ -63,6 +37,51 @@ namespace Dames.model.board
         public List<Square> GetSquares()
         {
             return this.Squares;
+        }
+
+        public bool PossibleToMove(Square Square)
+        {            
+            bool possible = false;
+            bool reset = false;
+            for (int i = Square.GetColumn() - 1; i <= Square.GetColumn() + 1; i++)
+            {
+                var SquareTMP = this.SquareAt(i, Square.GetRow() - 1);
+                if (SquareTMP != null && SquareTMP.GetColored() && SquareTMP.GetPon() == null)
+                {                    
+                    if (!reset)
+                    {
+                        this.ResetSelectedSquares();
+                        reset = true;
+                    }
+                    SquareTMP.Select();
+                    possible = true;  
+                }
+            }            
+            return possible;
+        }
+
+        private Square SquareAt(int column, int row)
+        {            
+            foreach (Square Square in Squares)
+            {
+                if (Square.GetColumn() == column && Square.GetRow() == row)
+                {
+                    return Square;
+                }
+            }
+            return null;
+        }
+
+        public void ResetSelectedSquares()
+        {
+            foreach (Square Square in Squares)
+            {
+                if (Square.GetSelected())
+                {
+                    Square.Deselect();
+                }
+                
+            }
         }
     }
 }

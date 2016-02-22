@@ -35,9 +35,10 @@ namespace Dames.model.player
             {
                 if (!Pon.Equals(pon))
                 {
-                    pon.Deselect();
-                }
+                    pon.Deselect();                    
+                }                
             }
+            
         }
 
         public List<Pon> GetPons()
