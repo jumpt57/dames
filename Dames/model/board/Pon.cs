@@ -96,7 +96,9 @@ namespace Dames.model
         public void Deselect()
         {
             this.Selected = false;
-            this.SetColor(this.Player.GetColor());            
+            this.SetColor(this.Player.GetColor());
+            this.SetColor(Player.GetColor());
+            this.Hovered = false;
         }
 
         private bool CanBePlayed()

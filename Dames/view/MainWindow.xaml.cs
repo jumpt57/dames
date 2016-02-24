@@ -32,11 +32,11 @@ namespace Dames
         {
             InitializeComponent();
 
-            boardController = new BoardController();
-
             InitalizeWindow();
 
             InitalizeGrid();
+
+            boardController = new BoardController(BoardXML);            
 
             InitalizeSquare();
         }
@@ -91,5 +91,7 @@ namespace Dames
                 }              
             }
         }
+
+
     }
 }

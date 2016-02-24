@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Dames.controller
 {
@@ -15,11 +16,11 @@ namespace Dames.controller
         private Ia Ia;
         private Board Board;
 
-        public BoardController()
+        public BoardController(Grid BoardXML)
         {
             Human = new Human();
             Ia = new Ia();
-            Board = new Board();
+            Board = new Board(BoardXML);
 
             InitalizePons();
         }

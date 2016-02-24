@@ -15,10 +15,14 @@ namespace Dames.model.board
 
         private List<Square> Squares;
 
-        public Board()
+        private Grid BoardXML;
+
+        public Board(Grid BoardXML)
         {
-            Squares = new List<Square>(100);
+            this.Squares = new List<Square>(100);
+            this.BoardXML = BoardXML;
             InitalizeSquares();
+
         }
 
         public void InitalizeSquares()
@@ -53,11 +57,34 @@ namespace Dames.model.board
                         this.ResetSelectedSquares();
                         reset = true;
                     }
-                    SquareTMP.Select();
+                    SquareTMP.IsHovered();
                     possible = true;  
                 }
             }            
             return possible;
+        }
+
+        public void MoveSelectedPonTo(Square NewSquare)
+        {
+            var Pon = RemoveSelectedPonFromTheBoard();
+            if (Pon != null)
+            {
+                BoardXML.Children.Remove(Pon.Get());
+                NewSquare.SetPon(Pon);
+                Pon.SetSquare(NewSquare);
+
+                Grid.SetColumn(NewSquare.GetPon().Get(), NewSquare.GetColumn());
+                Grid.SetRow(NewSquare.GetPon().Get(), NewSquare.GetRow());
+                BoardXML.Children.Add(Pon.Get());
+
+                ResetSelectedSquares();
+                Pon.Deselect();
+            }         
+        }
+
+        public void Manger()
+        {
+            Console.WriteLine("Try to eat !");
         }
 
         private Square SquareAt(int column, int row)
@@ -76,12 +103,23 @@ namespace Dames.model.board
         {
             foreach (Square Square in Squares)
             {
-                if (Square.GetSelected())
+                if (Square.GetHovered())
                 {
-                    Square.Deselect();
-                }
-                
+                    Square.NotHovered();
+                }                
             }
+        }
+        
+        private Pon RemoveSelectedPonFromTheBoard()
+        {
+            foreach (Square Square in Squares)
+            {
+                if (Square.GetPon() != null && Square.GetPon().GetSelected())
+                {                    
+                    return Square.RemovePon();                   
+                }
+            }
+            return null;
         }
     }
 }

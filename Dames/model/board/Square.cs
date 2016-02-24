@@ -25,7 +25,7 @@ namespace Dames.model.board
         private int Column;
         private int Row;
         private bool Colored;
-        private bool Selected;
+        private bool Hovered;
 
         public Square(int column, int row, Board Board)
         {
@@ -41,13 +41,15 @@ namespace Dames.model.board
             this.Column = column;
             this.Row = row;
             this.Board = Board;
-            this.Selected = false;
+            this.Hovered = false;
         }
 
         private void OnMouseLeftClick(object sender, MouseEventArgs m)
         {
-            if (this.Pon == null || this.Pon != null && this.Pon.GetPlayer().GetIa()) return;
-            Console.WriteLine("Click on Square");
+            if (!this.GetColored()) return;
+            if (this.GetPon() != null && !this.Pon.GetPlayer().GetIa()) return;
+            if (this.GetPon() != null && this.Pon.GetPlayer().GetIa()) this.GetBoard().Manger();           
+            this.GetBoard().MoveSelectedPonTo(this);
         }
 
         private void DefineColor()
@@ -78,13 +80,13 @@ namespace Dames.model.board
             }
         }
 
-        public void Select()
+        public void IsHovered()
         {
             this.Rec.Fill = HoverSquare;
-            this.Selected = true;
+            this.Hovered = true;
         }
 
-        public void Deselect()
+        public void NotHovered()
         {
             if (this.Colored)
             {
@@ -94,7 +96,15 @@ namespace Dames.model.board
             {
                 this.Rec.Fill = WhiteSquare;
             }
-            this.Selected = false;
+            this.Hovered = false;
+        }
+
+        public Pon RemovePon()
+        {
+            var Pon = this.Pon;
+            Pon.SetSquare(null);
+            this.Pon = null;            
+            return Pon;
         }
 
         public Rectangle Get()
@@ -132,14 +142,15 @@ namespace Dames.model.board
             return this.Colored;
         }
 
-        public bool GetSelected()
+        public bool GetHovered()
         {
-            return this.Selected;
+            return this.Hovered;
         }
 
-        public void SetSelected(bool Selected)
+        public void SetHovered(bool Hovered)
         {
-            this.Selected = Selected;
+            this.Hovered = Hovered;
         }
+               
     }
 }
