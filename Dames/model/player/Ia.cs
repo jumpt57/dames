@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Dames.model.board;
 
 namespace Dames.model.player
 {
@@ -14,6 +15,11 @@ namespace Dames.model.player
             this.Color = Brushes.Wheat;
             this.CreatePons();
             this.Ia = true;
+        }
+
+        public override bool PossibleMovements(Board board, Square Square)
+        {
+            throw new NotImplementedException();
         }
     }
 }

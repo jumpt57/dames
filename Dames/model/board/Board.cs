@@ -43,25 +43,9 @@ namespace Dames.model.board
             return this.Squares;
         }
 
-        public bool PossibleToMove(Square Square)
-        {            
-            bool possible = false;
-            bool reset = false;
-            for (int i = Square.GetColumn() - 1; i <= Square.GetColumn() + 1; i++)
-            {
-                var SquareTMP = this.SquareAt(i, Square.GetRow() - 1);
-                if (SquareTMP != null && SquareTMP.GetColored() && SquareTMP.GetPon() == null)
-                {                    
-                    if (!reset)
-                    {
-                        this.ResetSelectedSquares();
-                        reset = true;
-                    }
-                    SquareTMP.IsHovered();
-                    possible = true;  
-                }
-            }            
-            return possible;
+        public bool CheckMovements(Square Square, Player Player)
+        {
+            return Player.PossibleMovements(this, Square);
         }
 
         public void MoveSelectedPonTo(Square NewSquare)
@@ -87,7 +71,7 @@ namespace Dames.model.board
             Console.WriteLine("Try to eat !");
         }
 
-        private Square SquareAt(int column, int row)
+        public Square SquareAt(int column, int row)
         {            
             foreach (Square Square in Squares)
             {
@@ -106,7 +90,11 @@ namespace Dames.model.board
                 if (Square.GetHovered())
                 {
                     Square.NotHovered();
-                }                
+                }      
+                else if (Square.GetPossibleManger())
+                {
+                    Square.NotPossibleManger();
+                }          
             }
         }
         
@@ -117,6 +105,18 @@ namespace Dames.model.board
                 if (Square.GetPon() != null && Square.GetPon().GetSelected())
                 {                    
                     return Square.RemovePon();                   
+                }
+            }
+            return null;
+        }
+
+        public Pon WhatIsTheSelectedPon()
+        {
+            foreach (Square Square in Squares)
+            {
+                if (Square.GetPon() != null && Square.GetPon().GetSelected())
+                {
+                    return Square.GetPon();
                 }
             }
             return null;

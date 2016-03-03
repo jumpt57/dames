@@ -18,6 +18,7 @@ namespace Dames.model.board
         public static SolidColorBrush WhiteSquare = Brushes.White;
         public static SolidColorBrush ColoredSquare = Brushes.SandyBrown;
         public static SolidColorBrush HoverSquare = Brushes.LightCyan;
+        public static SolidColorBrush HoverSquareManger = Brushes.DarkCyan;
 
         private Rectangle Rec;        
         private Pon Pon;
@@ -26,6 +27,7 @@ namespace Dames.model.board
         private int Row;
         private bool Colored;
         private bool Hovered;
+        private bool PossibleManger;
 
         public Square(int column, int row, Board Board)
         {
@@ -42,6 +44,7 @@ namespace Dames.model.board
             this.Row = row;
             this.Board = Board;
             this.Hovered = false;
+            this.PossibleManger = false;
         }
 
         private void OnMouseLeftClick(object sender, MouseEventArgs m)
@@ -99,6 +102,25 @@ namespace Dames.model.board
             this.Hovered = false;
         }
 
+        public void IsPossibleManger()
+        {
+            this.Rec.Fill = HoverSquareManger;
+            this.PossibleManger = true;
+        }
+
+        public void NotPossibleManger()
+        {
+            if (this.Colored)
+            {
+                this.Rec.Fill = ColoredSquare;
+            }
+            else
+            {
+                this.Rec.Fill = WhiteSquare;
+            }
+            this.PossibleManger = false;
+        }
+
         public Pon RemovePon()
         {
             var Pon = this.Pon;
@@ -151,6 +173,16 @@ namespace Dames.model.board
         {
             this.Hovered = Hovered;
         }
-               
+
+        public bool GetPossibleManger()
+        {
+            return this.PossibleManger; ;
+        }
+
+        public void SetPossibleManger(bool Possible)
+        {
+            this.PossibleManger = Possible;
+        }
+
     }
 }

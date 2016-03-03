@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Dames.model.board;
 
 namespace Dames.model.player
 {
@@ -16,6 +17,8 @@ namespace Dames.model.player
         protected List<Pon> Pons;
 
         protected bool Ia;
+
+        public abstract bool PossibleMovements(Board board, Square Square);
 
         protected void CreatePons()
         {

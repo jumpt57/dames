@@ -47,7 +47,7 @@ namespace Dames.model
         private void OnMouseLeftClick(object sender, MouseEventArgs m)
         {
             if (this.Player.GetIa()) return;
-                      
+            
             if (!this.Selected && CanBePlayed())
             {                       
                 Select();
@@ -103,7 +103,7 @@ namespace Dames.model
 
         private bool CanBePlayed()
         {
-            return this.Square.GetBoard().PossibleToMove(this.GetSquare());
+            return this.Square.GetBoard().CheckMovements(this.GetSquare(), this.GetPlayer());
         }
 
         public Brush GetColor()
