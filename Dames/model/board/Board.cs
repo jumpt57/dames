@@ -17,12 +17,14 @@ namespace Dames.model.board
 
         private Grid BoardXML;
 
+        private bool WaitTurn;
+
         public Board(Grid BoardXML)
         {
             this.Squares = new List<Square>(100);
             this.BoardXML = BoardXML;
             InitalizeSquares();
-
+            WaitTurn = false;
         }
 
         public void InitalizeSquares()
@@ -120,6 +122,52 @@ namespace Dames.model.board
                 }
             }
             return null;
+        }
+
+        public void IaTurn()
+        {
+            Console.WriteLine("tour de l'ia");
+            this.WaitTurn = true;
+            var Ia = GetIa();
+
+            var column = 9; //Random
+            var row = 3; // Random
+
+            var Square = this.SquareAt(column, row);
+            var Playable = false;
+            while (!Playable)
+            {
+                if (this.CheckMovements(Square, Ia))
+                {
+                    Playable = true;
+                }
+            }
+            
+
+            this.WaitTurn = false;
+            Console.WriteLine("fin du tour de l'ia");
+        }
+
+        private Ia GetIa()
+        {
+            foreach (Square Square in Squares)
+            {
+                if (Square.GetPon() != null && Square.GetPon().GetPlayer().GetIa())
+                {
+                    return (Ia) Square.GetPon().GetPlayer();
+                }
+            }
+            return null;
+        }
+
+        public bool GetWaitTurn()
+        {
+            return this.WaitTurn;
+        }
+
+        public void SetWaiTurn(bool WaitTurn)
+        {
+            this.WaitTurn = WaitTurn;
         }
     }
 }

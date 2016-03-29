@@ -19,7 +19,7 @@ namespace Dames.model.player
 
         public override bool PossibleMovements(Board board, Square Square)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

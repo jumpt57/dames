@@ -49,10 +49,12 @@ namespace Dames.model.board
 
         private void OnMouseLeftClick(object sender, MouseEventArgs m)
         {
+            if (this.GetBoard().GetWaitTurn()) return;
             if (!this.GetColored()) return;
             if (this.GetPon() != null && !this.Pon.GetPlayer().GetIa()) return;
             if (this.GetPon() != null && this.Pon.GetPlayer().GetIa()) this.GetBoard().Manger();           
             this.GetBoard().MoveSelectedPonTo(this);
+            this.GetBoard().IaTurn();
         }
 
         private void DefineColor()

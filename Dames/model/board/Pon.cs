@@ -46,6 +46,7 @@ namespace Dames.model
 
         private void OnMouseLeftClick(object sender, MouseEventArgs m)
         {
+            if (this.GetSquare().GetBoard().GetWaitTurn()) return;
             if (this.Player.GetIa()) return;
             
             if (!this.Selected && CanBePlayed())

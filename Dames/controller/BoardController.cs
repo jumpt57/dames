@@ -21,7 +21,6 @@ namespace Dames.controller
             Human = new Human();
             Ia = new Ia();
             Board = new Board(BoardXML);
-
             InitalizePons();
         }
 
